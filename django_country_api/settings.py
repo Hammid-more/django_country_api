@@ -7,7 +7,8 @@ SECRET_KEY = 'REPLACE_ME_WITH_YOUR_SECRET_KEY'
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['your-app-name.onrender.com', 'localhost']
+
 
 
 # ✅ Installed apps
@@ -86,3 +87,10 @@ USE_TZ = True
 STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Whitenoise settings
+MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')

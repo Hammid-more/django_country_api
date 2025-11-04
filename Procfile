@@ -1,0 +1,1 @@
+web: gunicorn django_country_api.wsgi
