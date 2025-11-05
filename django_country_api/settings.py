@@ -1,15 +1,14 @@
-# django_country_api/settings.py
 from pathlib import Path
+import os
+import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'REPLACE_ME_WITH_YOUR_SECRET_KEY'
-
-DEBUG = True
-
+# ✅ Security
+SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key')
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 ALLOWED_HOSTS = ['your-app-name.onrender.com', 'localhost']
-
-
+CSRF_TRUSTED_ORIGINS = ['https://your-app-name.onrender.com']
 
 # ✅ Installed apps
 INSTALLED_APPS = [
@@ -24,10 +23,13 @@ INSTALLED_APPS = [
     'citizens',
 ]
 
-
 # ✅ Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+
+    # Whitenoise middleware
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -36,11 +38,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
 ROOT_URLCONF = 'django_country_api.urls'
 
-
-# ✅ Templates for admin
+# ✅ Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -57,19 +57,18 @@ TEMPLATES = [
     },
 ]
 
-
 WSGI_APPLICATION = 'django_country_api.wsgi.application'
 
-
-# ✅ Database
+# ✅ Database (Render - PostgreSQL)
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default='postgresql://...',
+        conn_max_age=600,
+        ssl_require=True
+    )
 }
 
-
+# ✅ Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -77,20 +76,15 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-
+# ✅ Locale
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-
-STATIC_URL = 'static/'
-
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-
+# ✅ Static files (Render + Whitenoise)
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
-# Whitenoise settings
-MIDDLEWARE.insert(1, 'whitenoise.middleware.WhiteNoiseMiddleware')
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
