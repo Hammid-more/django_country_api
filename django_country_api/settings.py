@@ -7,10 +7,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # ✅ Security
 SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key')
 DEBUG = os.environ.get("DEBUG", "False") == "True"
-ALLOWED_HOSTS = ['your-app-name.onrender.com', 'localhost']
-CSRF_TRUSTED_ORIGINS = ['https://your-app-name.onrender.com']
 
-# ✅ Installed apps
+# ✅ Your Render domain
+ALLOWED_HOSTS = [
+    'django-country-api-pipk.onrender.com',
+    'localhost'
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://django-country-api-pipk.onrender.com'
+]
+
+# ✅ Installed Apps
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -27,7 +35,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
 
-    # Whitenoise middleware
+    # Whitenoise for static files
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -59,12 +67,12 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_country_api.wsgi.application'
 
-# ✅ Database (Render - PostgreSQL)
+# ✅ Database (Render PostgreSQL)
 DATABASES = {
     'default': dj_database_url.config(
         default='postgresql://...',
         conn_max_age=600,
-        ssl_require=True
+        ssl_require=True,
     )
 }
 
@@ -76,13 +84,13 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# ✅ Locale
+# ✅ Language & Time
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# ✅ Static files (Render + Whitenoise)
+# ✅ Static Files for Render
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
