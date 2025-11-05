@@ -10,8 +10,11 @@ DEBUG = os.environ.get("DEBUG", "False") == "True"
 
 # ✅ Your Render domain
 ALLOWED_HOSTS = [
-    'django-country-api-pipk.onrender.com',
-    'localhost'
+    'django-country-api-pipk.onrender.com', 
+    'localhost', 
+    '127.0.0.1'
+
+
 ]
 
 CSRF_TRUSTED_ORIGINS = [
