@@ -1,12 +1,7 @@
-from django.contrib import admin
-from django.urls import path, include
-from django.http import JsonResponse
-
-def home(request):
-    return JsonResponse({"message": "Welcome to Django Country API"})
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', home),
-    path('api/', include('citizens.urls')),  # 👈 this is the critical line
+    path('', views.citizen_list, name='citizen-list'),
+    path('citizens/', views.citizen_list, name='citizen-list-alt'),  # 👈 optional test route
 ]
