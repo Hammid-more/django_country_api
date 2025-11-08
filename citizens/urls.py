@@ -1,10 +1,11 @@
-# citizens/urls.py
-
 from django.urls import path
-from .views import CitizenListCreateView
+from . import views
 
 urlpatterns = [
-    path('', CitizenListCreateView.as_view(), name='citizen-list'),
+    path('', views.CitizenList.as_view(), name='citizen-list'),  # Example for class-based view
+    # OR if you use function-based views:
+    # path('', views.citizen_list, name='citizen-list'),
 ]
+
 
 
