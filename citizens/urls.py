@@ -2,7 +2,6 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.citizen_list, name='citizen-list'),
-    path('citizens/', views.citizen_list, name='citizen-list-alt'),
+    path('citizens/', views.citizen_list, name='citizen_list'),          # GET all, POST new
+    path('citizens/<int:id>/', views.citizen_detail, name='citizen_detail'),  # GET one, PUT/PATCH, DELETE
 ]
-
