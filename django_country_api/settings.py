@@ -68,12 +68,12 @@ WSGI_APPLICATION = 'django_country_api.wsgi.application'
 
 # ✅ Database (Render PostgreSQL)
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://...',
-        conn_max_age=600,
-        ssl_require=True,
-    )
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',  # This will create a file db.sqlite3 in your project
+    }
 }
+
 
 # ✅ Password validation
 AUTH_PASSWORD_VALIDATORS = [
