@@ -1,18 +1,20 @@
 from django.contrib import admin
 from django.urls import path, include
-from django.http import JsonResponse
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework.reverse import reverse
 
-# Optional simple homepage view
-def home(request):
-    return JsonResponse({
-        "message": "Welcome to Django Country API",
-        "endpoints": {
-            "citizens": "/citizens/"
-        }
+
+# ✅ Optional: API root view (nice homepage)
+@api_view(['GET'])
+def api_root(request, format=None):
+    return Response({
+        'citizens': reverse('citizen-list', request=request, format=format),
     })
 
+
 urlpatterns = [
-    path('', home),  # ✅ handles root URL
+    path('', api_root, name='api-root'),  # ✅ browsable API root
     path('admin/', admin.site.urls),
-    path('citizens/', include('citizens.urls')),  # ✅ include your app's URLs here
+    path('citizens/', include('citizens.urls')),
 ]

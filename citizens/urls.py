@@ -1,9 +1,9 @@
 from django.urls import path
-from . import views
+from .views import CitizenListCreateView, CitizenRetrieveUpdateDestroyView
 
 urlpatterns = [
-    path('', views.citizen_list, name='citizen_list'),
-    path('<int:id>/', views.citizen_detail, name='citizen_detail'),
+    path('', CitizenListCreateView.as_view(), name='citizen-list'),
+    path('<int:pk>/', CitizenRetrieveUpdateDestroyView.as_view(), name='citizen-detail'),
 ]
 
 

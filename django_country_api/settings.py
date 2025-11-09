@@ -25,10 +25,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
-    'rest_framework',
-    'citizens',
+    'rest_framework',   # ✅ Add this
+    'citizens',         # your app
 ]
+
 
 # ✅ Middleware
 MIDDLEWARE = [
