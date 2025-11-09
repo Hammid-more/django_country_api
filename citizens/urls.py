@@ -1,12 +1,9 @@
-from django.contrib import admin
-from django.urls import path, include
-from django.shortcuts import redirect
-
-def home(request):
-    return redirect('/citizens/')
+from django.urls import path
+from . import views
 
 urlpatterns = [
-    path('', home),
-    path('admin/', admin.site.urls),
-    path('citizens/', include('citizens.urls')),
+    path('', views.citizen_list, name='citizen_list'),
+    path('<int:id>/', views.citizen_detail, name='citizen_detail'),
 ]
+
+
