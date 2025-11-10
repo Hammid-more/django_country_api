@@ -8,13 +8,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key')
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-# ✅ Your Render domain
-ALLOWED_HOSTS = ['django-country-api-pipk.onrender.com', 'localhost', '127.0.0.1']
-
-
+# ✅ Your Render domain + local dev
+ALLOWED_HOSTS = [
+    'django-country-api-pipk.onrender.com',
+    'localhost',
+    '127.0.0.1'
+]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://django-country-api-pipk.onrender.com'
+    'https://django-country-api-pipk.onrender.com',
+    'http://localhost:5175',  # ✅ allow React dev server
 ]
 
 # ✅ Installed Apps
@@ -25,18 +28,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',   # ✅ Add this
-    'citizens',         # your app
+    'rest_framework',
+    'citizens',
+    'corsheaders',  # ✅ enable CORS
 ]
-
 
 # ✅ Middleware
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',  # ✅ MUST be at the top
     'django.middleware.security.SecurityMiddleware',
-
-    # Whitenoise for static files
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # for static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -66,14 +67,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_country_api.wsgi.application'
 
-# ✅ Database (Render PostgreSQL)
+# ✅ Database (using SQLite for now)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',  # This will create a file db.sqlite3 in your project
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-
 
 # ✅ Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -89,17 +89,33 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# ✅ Static Files for Render
+# ✅ Static files
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+# ✅ REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',
-        'rest_framework.renderers.BrowsableAPIRenderer',  # ✅ For the visual HTML interface
+        'rest_framework.renderers.BrowsableAPIRenderer',
     ]
 }
+
+# ✅ CORS settings
+CORS_ALLOW_ALL_ORIGINS = False  # safer than True in production
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5175",  # ✅ React dev server
+    "https://django-country-api-pipk.onrender.com",  # your deployed frontend if any
+]
+CORS_ALLOW_METHODS = [
+    "GET",
+    "POST",
+    "PUT",
+    "PATCH",
+    "DELETE",
+    "OPTIONS"
+]
+CORS_ALLOW_HEADERS = ["*"]
