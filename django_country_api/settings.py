@@ -1,6 +1,5 @@
 from pathlib import Path
 import os
-import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -8,16 +7,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key')
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-# ✅ Your Render domain + local dev
+# ✅ Allowed Hosts
 ALLOWED_HOSTS = [
     'django-country-api-pipk.onrender.com',
     'localhost',
     '127.0.0.1'
 ]
 
+# ✅ CSRF Trusted Origins
 CSRF_TRUSTED_ORIGINS = [
     'https://django-country-api-pipk.onrender.com',
-    'http://localhost:5175',  # ✅ allow React dev server
+    'http://localhost:5175',  # React dev server
 ]
 
 # ✅ Installed Apps
@@ -30,14 +30,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'citizens',
-    'corsheaders',  # ✅ enable CORS
+    'corsheaders',  # ✅ Enable CORS
 ]
 
 # ✅ Middleware
 MIDDLEWARE = [
-    'corsheaders.middleware.CorsMiddleware',  # ✅ MUST be at the top
+    'corsheaders.middleware.CorsMiddleware',  # MUST be at the top
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # for static files
+    'whitenoise.middleware.WhiteNoiseMiddleware',  # Static files
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -67,7 +67,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'django_country_api.wsgi.application'
 
-# ✅ Database (using SQLite for now)
+# ✅ Database (SQLite for now)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -83,13 +83,13 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# ✅ Language & Time
+# ✅ Language & Timezone
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# ✅ Static files
+# ✅ Static files (Render-ready)
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
@@ -105,10 +105,10 @@ REST_FRAMEWORK = {
 }
 
 # ✅ CORS settings
-CORS_ALLOW_ALL_ORIGINS = False  # safer than True in production
+CORS_ALLOW_ALL_ORIGINS = False
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5175",  # ✅ React dev server
-    "https://django-country-api-pipk.onrender.com",  # your deployed frontend if any
+    "http://localhost:5175",
+    "https://django-country-api-pipk.onrender.com",
 ]
 CORS_ALLOW_METHODS = [
     "GET",
